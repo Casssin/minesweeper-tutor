@@ -24,6 +24,7 @@ if (typeof module === "object" && module && typeof module.exports === "object") 
     }
 }
 
+const ACTION_HINT = 0;
 const ACTION_CLEAR = 1;
 const ACTION_FLAG = 2;
 const ACTION_CHORD = 3;

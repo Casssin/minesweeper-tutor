@@ -809,9 +809,11 @@ function renderHints(hints, otherActions, drawOverlay) {
 
         if (hint.action == ACTION_CHORD) {
             ctxHints.fillStyle = "#00FF00";
-        } else if (hint.prob == 0) {   // mine
+        } else if (hint.action == ACTION_FLAG) {   // mine
             ctxHints.fillStyle = "#FF0000";
-        } else if (hint.prob == 1) {  // safe
+        } else if (hint.action == ACTION_HINT) {
+            ctxHints.fillStyle = "#0085FF";
+        } else if (hint.action == ACTION_CLEAR) {  // safe
             ctxHints.fillStyle = "#00FF00";
         } else if (hint.dead) {  // uncertain but dead
             ctxHints.fillStyle = "black";
@@ -2299,7 +2301,7 @@ async function doAnalysis(fullBFDA) {
             options.playStyle = PLAY_STYLE_NOFLAGS_EFFICIENCY; 
         } 
 
-        options.fullProbability = true;
+        options.fullProbability = false;
         options.guessPruning = guessAnalysisPruning;
         options.fullBFDA = fullBFDA;
         options.hardcore = docHardcore.checked;

@@ -253,11 +253,11 @@ async function solver(board, options) {
         const oldMineCount = result.length;
 
         // add any trivial moves we've found
-        if (options.fullProbability || options.playStyle == PLAY_STYLE_EFFICIENCY || options.playStyle == PLAY_STYLE_NOFLAGS_EFFICIENCY) {
-            writeToConsole("Skipping trivial analysis since Probability Engine analysis is required")
-        } else {
+        // if (options.fullProbability || options.playStyle == PLAY_STYLE_EFFICIENCY) {
+        //     writeToConsole("Skipping trivial analysis since Probability Engine analysis is required")
+        // } else {
             result.push(...trivial_actions(board, witnesses));
-        }
+        // }
  
         if (result.length > oldMineCount) {
             showMessage("The solver found " + result.length + " trivial safe moves");
@@ -990,6 +990,7 @@ async function solver(board, options) {
 
             // if the tile has the correct number of flags then the other adjacent tiles are clear
             if (flags == tile.getValue() && covered > 0) {
+                result.set(tile, new Action(tile.getX(), tile.getY(), 1, ACTION_HINT));
                 for (let j = 0; j < adjTiles.length; j++) {
                     const adjTile = adjTiles[j];
                     if (adjTile.isCovered() && !adjTile.isSolverFoundBomb()) {
@@ -1000,6 +1001,7 @@ async function solver(board, options) {
 
             // if the tile has n remaining covered squares and needs n more flags then all the adjacent files are flags
             } else if (tile.getValue() == flags + covered && covered > 0) {
+                result.set(tile, new Action(tile.getX(), tile.getY(), 1, ACTION_HINT));
                 for (let j = 0; j < adjTiles.length; j++) {
                     const adjTile = adjTiles[j];
                     if (adjTile.isCovered() && !adjTile.isSolverFoundBomb()) { // if covered, not already a known mine and isn't flagged
