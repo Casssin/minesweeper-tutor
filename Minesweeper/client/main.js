@@ -2250,6 +2250,68 @@ async function sleep(msec) {
     return new Promise(resolve => setTimeout(resolve, msec));
 }
 
+async function hint() {
+
+    if (canvasLocked) {
+        console.log("Already analysing... request rejected");
+        return;
+    } else {
+        console.log("Doing analysis");
+        analysisButton.disabled = true;
+        canvasLocked = true;
+    }
+    // put out a message and wait long enough for the ui to update
+    showMessage("Analysing...");
+    await sleep(1);
+
+    // this will set all the obvious mines which makes the solution counter a lot more efficient on very large boards
+    if (analysisMode) {
+        const flagIsMine = document.getElementById("flagIsMine").checked;
+        board.resetForAnalysis(!replayMode && flagIsMine, true);  // in replay mode don't treat flags as mines
+    }
+ 
+    const solutionCounter = solver.countSolutions(board);
+
+    if (solutionCounter.finalSolutionsCount != 0) {
+
+         const options = {};
+        if (docPlayStyle.value == "flag") {
+            options.playStyle = PLAY_STYLE_FLAGS;
+        } else if (docPlayStyle.value == "noflag") {
+            options.playStyle = PLAY_STYLE_NOFLAGS;
+        } else if (docPlayStyle.value == "eff") {
+            options.playStyle = PLAY_STYLE_EFFICIENCY;
+        } else {
+            options.playStyle = PLAY_STYLE_NOFLAGS_EFFICIENCY; 
+        } 
+
+        options.fullProbability = false;
+        options.guessPruning = guessAnalysisPruning;
+        options.fullBFDA = true;
+        options.hardcore = docHardcore.checked;
+
+        const hints = await trivial_hints(board, options);  // look for solutions
+        
+        justPressedAnalyse = true;
+
+        window.requestAnimationFrame(() => renderHints(hints, []));
+
+        // show the next tile to be clicked if in replay mode
+        if (analysisMode && replayMode) {
+            const nextStep = replayData.replay[replayStep];
+            showNextStep(nextStep);
+        }
+ 
+    } else {
+        showMessage("The board is in an invalid state");
+        window.requestAnimationFrame(() => renderHints([], []));
+    }
+
+    // by delaying re-enabling we absorb any secondary clicking of the button / hot key
+    setTimeout(function () { analysisButton.disabled = false; }, 200);
+    canvasLocked = false;
+
+}
 async function doAnalysis(fullBFDA) {
 
     if (canvasLocked) {
