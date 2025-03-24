@@ -13,7 +13,7 @@ async function trivial_hints(board, options) {
 
     const work = new Set();  // use a map to deduplicate the witnessed tiles
 
-    showMessage("The solver is thinking...");
+    // showMessage("The solver is thinking...");
 
     for (let i = 0; i < board.tiles.length; i++) {
 
@@ -85,7 +85,7 @@ async function trivial_hints(board, options) {
             tile.setProbability(1);
             result.push(new Action(tile.getX(), tile.getY(), 1, ACTION_CLEAR))
         }
-        showMessage("No mines left to find, all the remaining tiles are safe");
+        // showMessage("No mines left to find, all the remaining tiles are safe");
         return new EfficiencyHelper(board, witnesses, witnessed, result, options.playStyle, null, allCoveredTiles).process();
     }
 
@@ -97,7 +97,7 @@ async function trivial_hints(board, options) {
             tile.setProbability(0);
             result.push(new Action(tile.getX(), tile.getY(), 0, ACTION_FLAG))
         }
-        showMessage("No safe tiles left to find, all the remaining tiles are mines");
+        // showMessage("No safe tiles left to find, all the remaining tiles are mines");
         return result;
     }
 

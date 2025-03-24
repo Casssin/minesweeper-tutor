@@ -146,7 +146,7 @@
     <!--
     style="display: block; position: absolute; left: 170px; right: 0px; top: 60px; bottom: 60px;"
     -->
-    <div id="wholeboard" style="display: flex; flex-direction: column; position: absolute; left: 170px; right: 0px; top: 60px; bottom: 60px;">
+    <div id="wholeboard" style="display: flex; flex-direction: column; position: absolute; left: 170px; right: 200px; top: 60px; bottom: 60px;">
         <div class="tooltip" id="canvas" style="position: absolute; left: 0px; top: 0px; bottom: 0px; right: 0px;">
 
             <!-- the board header with mine count and some buttons -->
@@ -171,7 +171,7 @@
 
             <!-- message line at the bottom -->
             <div id="messageBar" class="hidden">
-                <div style="display:flex; flex-direction: column; justify-content: flex-end; position: relative; bottom: 0px; left: 0px; right: 0px; height: 28px;">
+                <div style="display:flex; flex-direction: column; justify-content: flex-end; position: relative; bottom: 0px; left: 0px; right: 0px; height: 100px;">
                     <label id="messageLine" style="font-size: 18px; overflow-y: auto; padding-left: 0px"></label>
                 </div>
             </div>
@@ -190,12 +190,13 @@
 
         </div>
     </div>
-
-    <div id="messageBarBottom">
-        <div class="raised" style="display:flex; flex-direction: column; justify-content: flex-end; position: absolute; bottom: 0px; left: 170px; right: 0px; height: 28px;">
-            <label id="messageLineBottom" style="font-size: 18px; overflow-y: auto; padding-left: 0px"></label>
+    <div id="messageBarBottom" style="position: absolute; top: 30%; right: 10px; bottom: 60px; width: 400px; height: 300px">
+        <div class="raised" style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%;">
+            <label id="messageLineBottom" style="font-size: 18px; overflow-y: auto; padding-left: 2px; text-align: center;"></label>
         </div>
     </div>
+    
+    
 
 
     <!-- Local storage popup -->

@@ -162,7 +162,7 @@ async function solver(board, options) {
 
         const work = new Set();  // use a map to deduplicate the witnessed tiles
 
-        showMessage("The solver is thinking...");
+        // showMessage("The solver is thinking...");
 
         for (let i = 0; i < board.tiles.length; i++) {
 
@@ -234,7 +234,7 @@ async function solver(board, options) {
                 tile.setProbability(1);
                 result.push(new Action(tile.getX(), tile.getY(), 1, ACTION_CLEAR))
             }
-            showMessage("No mines left to find, all the remaining tiles are safe");
+            // showMessage("No mines left to find, all the remaining tiles are safe");
             return new EfficiencyHelper(board, witnesses, witnessed, result, options.playStyle, null, allCoveredTiles).process();
         }
 
@@ -246,7 +246,7 @@ async function solver(board, options) {
                 tile.setProbability(0);
                 result.push(new Action(tile.getX(), tile.getY(), 0, ACTION_FLAG))
             }
-            showMessage("No safe tiles left to find, all the remaining tiles are mines");
+            // showMessage("No safe tiles left to find, all the remaining tiles are mines");
             return result;
         }
 
@@ -260,7 +260,7 @@ async function solver(board, options) {
         // }
  
         if (result.length > oldMineCount) {
-            showMessage("The solver found " + result.length + " trivial safe moves");
+            // showMessage("The solver found " + result.length + " trivial safe moves");
             return result;
             /*
             if (options.playStyle != PLAY_STYLE_FLAGS) {
@@ -297,7 +297,7 @@ async function solver(board, options) {
         writeToConsole("Probability Engine took " + pe.duration + " milliseconds to complete");
 
         if (pe.finalSolutionCount == 0) {
-            showMessage("The board is in an illegal state");
+            // showMessage("The board is in an illegal state");
             return result;
         }
 
@@ -334,13 +334,13 @@ async function solver(board, options) {
                 for (let deadTile of pe.deadTiles) {
                     if (deadTile.probability != 0) {
                         result.push(new Action(deadTile.getX(), deadTile.getY(), deadTile.probability, ACTION_CLEAR));
-                        showMessage("All tiles are dead, try tile " + deadTile.asText() + "." + formatSolutions(pe.finalSolutionsCount));
+                        // showMessage("All tiles are dead, try tile " + deadTile.asText() + "." + formatSolutions(pe.finalSolutionsCount));
                         break;
                      }
                 }
 
                 if (result.length == 0) {
-                    showMessage("Only mines remain." + formatSolutions(pe.finalSolutionsCount));
+                    // showMessage("Only mines remain." + formatSolutions(pe.finalSolutionsCount));
                 }
 
                 // pass back all the discovered mines
@@ -415,7 +415,7 @@ async function solver(board, options) {
                 result.push(action);
                 totalSafe++;
             }
-            showMessage("The solver has found " + totalSafe + " safe files." + formatSolutions(pe.finalSolutionsCount));
+            // showMessage("The solver has found " + totalSafe + " safe files." + formatSolutions(pe.finalSolutionsCount));
             result = new EfficiencyHelper(board, witnesses, witnessed, result, options.playStyle, pe, allCoveredTiles).process()
 
             if (!options.noGuessingMode) {
@@ -445,9 +445,9 @@ async function solver(board, options) {
                             const recommended = returnActions[0];
                             result.unshift(...returnActions);
                             if (recommended.prob == 0.5) {
-                                showMessage(recommended.asText() + " is an unavoidable 50/50 guess." + formatSolutions(pe.finalSolutionsCount));
+                                // showMessage(recommended.asText() + " is an unavoidable 50/50 guess." + formatSolutions(pe.finalSolutionsCount));
                             } else {
-                                showMessage(recommended.asText() + " is an unavoidable 50/50 guess, or safe." + formatSolutions(pe.finalSolutionsCount));
+                                // showMessage(recommended.asText() + " is an unavoidable 50/50 guess, or safe." + formatSolutions(pe.finalSolutionsCount));
                             }
 
                             // combine the dead tiles from the probability engine and the unavoidable 5050s
@@ -503,7 +503,7 @@ async function solver(board, options) {
         // if we aren't allowing advanced guessing then stop here
         if (!options.advancedGuessing) {
             writeToConsole("Advanced guessing is turned off so exiting the solver after the probability engine");
-            showMessage("Press 'Analyse' for advanced guessing");
+            // showMessage("Press 'Analyse' for advanced guessing");
             return addDeadTiles(result, pe.getDeadTiles(), pe.minesFound);
         }
 
@@ -524,15 +524,15 @@ async function solver(board, options) {
                 const recommended = returnActions[0];
                 result.push(recommended);
                 if (recommended.prob == 0.5) {
-                    showMessage(recommended.asText() + " is an unavoidable 50/50 guess." + formatSolutions(pe.finalSolutionsCount));
+                    // showMessage(recommended.asText() + " is an unavoidable 50/50 guess." + formatSolutions(pe.finalSolutionsCount));
                 } else {
-                    showMessage(recommended.asText() + " is an unavoidable 50/50 guess, or safe." + formatSolutions(pe.finalSolutionsCount));
+                    // showMessage(recommended.asText() + " is an unavoidable 50/50 guess, or safe." + formatSolutions(pe.finalSolutionsCount));
                 }
                 
                 return addDeadTiles(result, pe.getDeadTiles());
 
                 //result.push(new Action(unavoidable5050a.getX(), unavoidable5050a.getY(), unavoidable5050a.probability, ACTION_CLEAR));
-                //showMessage(unavoidable5050a.asText() + " is an unavoidable 50/50 guess." + formatSolutions(pe.finalSolutionsCount));
+                //// showMessage(unavoidable5050a.asText() + " is an unavoidable 50/50 guess." + formatSolutions(pe.finalSolutionsCount));
                 //return addDeadTiles(result, pe.getDeadTiles());
 
 
@@ -559,11 +559,11 @@ async function solver(board, options) {
                     result.push(nextmove);
 
                     var winChanceText = (bfda.winChance * 100).toFixed(2);
-                    showMessage("The solver has calculated tile " + nextmove.asText()  + " has a " + winChanceText + "% chance to solve the isolated edge." + formatSolutions(pe.finalSolutionsCount));
+                    // showMessage("The solver has calculated tile " + nextmove.asText()  + " has a " + winChanceText + "% chance to solve the isolated edge." + formatSolutions(pe.finalSolutionsCount));
 
                 } else {  // seed 6674107430895333
                     if (bfda.bestTile != null) {
-                        showMessage("The solver has calculated that all the tiles on an isolated edge are dead, try tile " + bfda.bestTile.asText() + "?" + formatSolutions(pe.finalSolutionsCount));
+                        // showMessage("The solver has calculated that all the tiles on an isolated edge are dead, try tile " + bfda.bestTile.asText() + "?" + formatSolutions(pe.finalSolutionsCount));
                     }
                 }
 
@@ -598,8 +598,8 @@ async function solver(board, options) {
         let partialBFDA = null;
         if (pe.bestProbability < 1 && pe.finalSolutionsCount < bfdaThreshold) {
 
-            //showMessage("The solver is starting brute force deep analysis on " + pe.finalSolutionsCount + " solutions");
-            showMessage("The solver is determining the " + pe.finalSolutionsCount + " solutions so they can be brute forced.");
+            //// showMessage("The solver is starting brute force deep analysis on " + pe.finalSolutionsCount + " solutions");
+            // showMessage("The solver is determining the " + pe.finalSolutionsCount + " solutions so they can be brute forced.");
             await sleep(1);
 
             pe.generateIndependentWitnesses();
@@ -634,10 +634,10 @@ async function solver(board, options) {
 
                     deadTiles = bfda.deadTiles;
                     const winChanceText = (bfda.winChance * 100).toFixed(2);
-                    showMessage("The solver has calculated tile " + nextmove.asText() + " has a " + winChanceText + "% chance to win the game." + formatSolutions(pe.finalSolutionsCount));
+                    // showMessage("The solver has calculated tile " + nextmove.asText() + " has a " + winChanceText + "% chance to win the game." + formatSolutions(pe.finalSolutionsCount));
 
                 } else {
-                    showMessage("The solver has calculated that all the remaining tiles are dead, try tile " + bfda.bestTile.asText() + "?" + formatSolutions(pe.finalSolutionsCount));
+                    // showMessage("The solver has calculated that all the remaining tiles are dead, try tile " + bfda.bestTile.asText() + "?" + formatSolutions(pe.finalSolutionsCount));
                     deadTiles = allCoveredTiles;   // all the tiles are dead
                 }
 
@@ -660,7 +660,7 @@ async function solver(board, options) {
             const unavoidable5050a = pe.checkForUnavoidable5050();
             if (unavoidable5050a != null) {
                 result.push(new Action(unavoidable5050a.getX(), unavoidable5050a.getY(), unavoidable5050a.probability, ACTION_CLEAR));
-                showMessage(unavoidable5050a.asText() + " is an unavoidable 50/50 guess." + formatSolutions(pe.finalSolutionsCount));
+                // showMessage(unavoidable5050a.asText() + " is an unavoidable 50/50 guess." + formatSolutions(pe.finalSolutionsCount));
                 return addDeadTiles(result, pe.getDeadTiles());
             }
             */
@@ -682,11 +682,11 @@ async function solver(board, options) {
                 const recommended = returnActions[0];
                 result.push(...returnActions);
                 if (recommended.prob == 0.5) {  // 2935898204031399
-                    showMessage(recommended.asText() + " is an unavoidable 50/50 guess." + formatSolutions(pe.finalSolutionsCount));
+                    // showMessage(recommended.asText() + " is an unavoidable 50/50 guess." + formatSolutions(pe.finalSolutionsCount));
                 } else {
-                    showMessage(recommended.asText() + " is an unavoidable 50/50 guess, or safe." + formatSolutions(pe.finalSolutionsCount));
+                    // showMessage(recommended.asText() + " is an unavoidable 50/50 guess, or safe." + formatSolutions(pe.finalSolutionsCount));
                 }
-                //showMessage(recommended.asText() + " is an unavoidable 50/50 guess, or safe." + formatSolutions(pe.finalSolutionsCount));
+                //// showMessage(recommended.asText() + " is an unavoidable 50/50 guess, or safe." + formatSolutions(pe.finalSolutionsCount));
                 return addDeadTiles(result, pe.getDeadTiles(), pe.minesFound);
             }
         }
@@ -708,9 +708,9 @@ async function solver(board, options) {
                 result.push(...returnActions);
                 //console.log(recommended.prob);
                 if (recommended.prob == 0.5) {  // 2935898204031399
-                    showMessage(recommended.asText() + " is an unavoidable 50/50 guess." + formatSolutions(pe.finalSolutionsCount));
+                    // showMessage(recommended.asText() + " is an unavoidable 50/50 guess." + formatSolutions(pe.finalSolutionsCount));
                 } else {
-                    showMessage(recommended.asText() + " is an unavoidable 50/50 guess, or safe." + formatSolutions(pe.finalSolutionsCount));
+                    // showMessage(recommended.asText() + " is an unavoidable 50/50 guess, or safe." + formatSolutions(pe.finalSolutionsCount));
                 }
 
                 return addDeadTiles(result, pe.getDeadTiles(), pe.minesFound);
@@ -743,7 +743,7 @@ async function solver(board, options) {
             }
 
             if (pe.bestProbability == 1) {
-                showMessage("The solver has found some certain moves using the probability engine." + formatSolutions(pe.finalSolutionsCount));
+                // showMessage("The solver has found some certain moves using the probability engine." + formatSolutions(pe.finalSolutionsCount));
 
                  // identify where the bombs are
                 for (let tile of pe.minesFound) {
@@ -761,10 +761,10 @@ async function solver(board, options) {
                     result = tieBreak(pe, result, partialBFDA, ltr, SolverGlobal.CALCULATE_LONG_TERM_SAFETY);
                     if (result.length != 0) {
                         const recommended = result[0];
-                        showMessage("The solver recommends clearing tile " + recommended.asText() + "." + formatSolutions(pe.finalSolutionsCount));
+                        // showMessage("The solver recommends clearing tile " + recommended.asText() + "." + formatSolutions(pe.finalSolutionsCount));
                     }
                 } else {
-                    showMessage("The solver has found the safest guess using the probability engine." + formatSolutions(pe.finalSolutionsCount));
+                    // showMessage("The solver has found the safest guess using the probability engine." + formatSolutions(pe.finalSolutionsCount));
                 }
             }
 
@@ -773,7 +773,7 @@ async function solver(board, options) {
 
             result.push(new Action(bestGuessTile.getX(), bestGuessTile.getY(), pe.offEdgeProbability), ACTION_CLEAR);
 
-            showMessage("The solver has decided the best guess is off the edge." + formatSolutions(pe.finalSolutionsCount));
+            // showMessage("The solver has decided the best guess is off the edge." + formatSolutions(pe.finalSolutionsCount));
 
         }
 
@@ -1963,7 +1963,7 @@ async function noGuessSolver(board, options) {
 
         const work = new Set();  // use a map to deduplicate the witnessed tiles
 
-        showMessage("The solver is thinking...");
+        // showMessage("The solver is thinking...");
 
         for (let i = 0; i < board.tiles.length; i++) {
 
@@ -2035,7 +2035,7 @@ async function noGuessSolver(board, options) {
                 tile.setProbability(1);
                 result.push(new Action(tile.getX(), tile.getY(), 1, ACTION_CLEAR))
             }
-            showMessage("No mines left to find, all the remaining tiles are safe");
+            // showMessage("No mines left to find, all the remaining tiles are safe");
             return new EfficiencyHelper(board, witnesses, witnessed, result, options.playStyle, null, allCoveredTiles).process();
         }
 
@@ -2047,7 +2047,7 @@ async function noGuessSolver(board, options) {
                 tile.setProbability(0);
                 result.push(new Action(tile.getX(), tile.getY(), 0, ACTION_FLAG))
             }
-            showMessage("No safe tiles left to find, all the remaining tiles are mines");
+            // showMessage("No safe tiles left to find, all the remaining tiles are mines");
             return result;
         }
 
@@ -2061,7 +2061,7 @@ async function noGuessSolver(board, options) {
         // }
  
         if (result.length > oldMineCount) {
-            showMessage("The solver found " + result.length + " trivial safe moves");
+            // showMessage("The solver found " + result.length + " trivial safe moves");
             return result;
             /*
             if (options.playStyle != PLAY_STYLE_FLAGS) {

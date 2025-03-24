@@ -349,7 +349,7 @@ async function startup() {
     //bulkRun(0, 1000, false);  // classic: seed '0' Won 424/1000 (42.40%)
     //bulkRun(0, 1000, true);  // modern: seed '0' Won 546/1000 (54.60%)
 
-    showMessage("Welcome to minesweeper solver dedicated to Annie");
+    // showMessage("Welcome to minesweeper solver dedicated to Annie");
 }
 
 function setBoardSizeOnGUI(width, height, mines) {
@@ -551,7 +551,7 @@ async function saveMBF(e) {
         }
 
         if (board.bombs_left != 0) {
-            showMessage("Mines left must be zero in order to download the board from Analysis mode.");
+            // showMessage("Mines left must be zero in order to download the board from Analysis mode.");
             okay = false;
         }
 
@@ -565,7 +565,7 @@ async function saveMBF(e) {
     } else {
         mbf = getMbfData(board.id);   // this function is in MinesweeperGame.js
         if (mbf == null) {
-            showMessage("No game data available to convert to an MBF file");
+            // showMessage("No game data available to convert to an MBF file");
             okay = false;
         }
     }
@@ -1145,14 +1145,14 @@ async function playAgain() {
 
         placeAnalysisQuery();
 
-        showMessage("Replay game requested");
+        // showMessage("Replay game requested");
         document.getElementById("newGameSmiley").src = 'resources/images/face.svg';
 
         if (!analysisMode && (autoPlayCheckBox.checked || docHardcore.checked)) {
             await startSolver();
         }
     } else {
-        showMessage("No game to replay");
+        // showMessage("No game to replay");
     }
 
 }
@@ -1233,7 +1233,7 @@ function StringToMBF(data) {
 async function newGameFromBlob(blob) {
     const mbf = await blob.arrayBuffer();
     await newGameFromMBF(mbf);
-    showMessage("Game " + board.width + "x" + board.height + "/" + board.num_bombs + " created from MBF file " + blob.name);
+    // showMessage("Game " + board.width + "x" + board.height + "/" + board.num_bombs + " created from MBF file " + blob.name);
 }
 
 async function newGameFromMBF(mbf) {
@@ -1275,7 +1275,7 @@ async function newGameFromMBF(mbf) {
 
     updateMineCount(board.num_bombs);
 
-    //showMessage("Game "  + width + "x" + height + "/" + mines + " created from MBF file");
+    //// showMessage("Game "  + width + "x" + height + "/" + mines + " created from MBF file");
     document.getElementById("newGameSmiley").src = 'resources/images/face.svg';
  
     if (!analysisMode && autoPlayCheckBox.checked && acceptGuessesCheckBox.checked) {
@@ -1292,15 +1292,15 @@ async function newBoardFromFile(file) {
 
         if (analysisMode) {
             await newBoardFromString(e.target.result, false, true);
-            showMessage("Position loaded from file " + file.name);
+            // showMessage("Position loaded from file " + file.name);
         } else {
             const mbf = StringToMBF(e.target.result);
             if (mbf == null) {
-                showMessage("File " + file.name + " doesn't contain data for a whole board");
+                // showMessage("File " + file.name + " doesn't contain data for a whole board");
                 return;
             } else {
                 newGameFromMBF(mbf);
-                showMessage("Game " + board.width + "x" + board.height + "/" + board.num_bombs + " created from mine positions extracted from file " + file.name);
+                // showMessage("Game " + board.width + "x" + board.height + "/" + board.num_bombs + " created from mine positions extracted from file " + file.name);
             }
         }
  
@@ -1438,7 +1438,7 @@ async function newBoardFromString(data, inflate, analyse) {
 function loadReplayData(file) {
 
     if (!analysisMode) {
-        showMessage("Switch to analysis mode before loading the replay");
+        // showMessage("Switch to analysis mode before loading the replay");
         return;
     }
 
@@ -1452,7 +1452,7 @@ function loadReplayData(file) {
         replayData.breaks = Array(replayData.replay.length);
         replayData.breaks.fill(false);
 
-        showMessage("Replay for " + replayData.header.width + "x" + replayData.header.height + "/" + replayData.header.mines + " loaded from " + file.name);
+        // showMessage("Replay for " + replayData.header.width + "x" + replayData.header.height + "/" + replayData.header.mines + " loaded from " + file.name);
 
         const newBoard = new Board(1, replayData.header.width, replayData.header.height, replayData.header.mines, "", "safe");
 
@@ -1542,7 +1542,7 @@ async function newGame(width, height, mines, seed, analyse) {
 
     placeAnalysisQuery();
 
-    showMessage("New game requested with width " + width + ", height " + height + " and " + mines + " mines.");
+    // showMessage("New game requested with width " + width + ", height " + height + " and " + mines + " mines.");
     document.getElementById("newGameSmiley").src = 'resources/images/face.svg';
 
     if (!analysisMode && analyse && autoPlayCheckBox.checked && acceptGuessesCheckBox.checked) {
@@ -1854,7 +1854,7 @@ async function replayForward(replayType) {
         replayStep++;
 
         if (replayType == "S") {
-            showMessage("Advancing to step " + replayStep + " of " + size);
+            // showMessage("Advancing to step " + replayStep + " of " + size);
             await sleep(1);
         }
 
@@ -2061,7 +2061,7 @@ async function replayBackward(replayType) {
     while (replayStep != 0) {
 
         if (replayType == "S") {
-            showMessage("Backwards to step " + replayStep + " of " + size);
+            // showMessage("Backwards to step " + replayStep + " of " + size);
             await sleep(1);
         }
 
@@ -2207,7 +2207,7 @@ async function replayBackward(replayType) {
     if (replayStep != 0) {
         prefixMessage("Total time: " + showDuration(totalTime) + ", Next move thinking time: " + showDuration(clickTime));
     } else {
-        showMessage("");
+        // showMessage("");
     }
 
     replaying = false;
@@ -2261,7 +2261,7 @@ async function hint() {
         canvasLocked = true;
     }
     // put out a message and wait long enough for the ui to update
-    showMessage("Analysing...");
+    // showMessage("Analysing...");
     await sleep(1);
 
     // this will set all the obvious mines which makes the solution counter a lot more efficient on very large boards
@@ -2303,7 +2303,7 @@ async function hint() {
         }
  
     } else {
-        showMessage("The board is in an invalid state");
+        // showMessage("The board is in an invalid state");
         window.requestAnimationFrame(() => renderHints([], []));
     }
 
@@ -2339,7 +2339,7 @@ async function doAnalysis(fullBFDA) {
     */
 
     // put out a message and wait long enough for the ui to update
-    showMessage("Analysing...");
+    // showMessage("Analysing...");
     await sleep(1);
 
     // this will set all the obvious mines which makes the solution counter a lot more efficient on very large boards
@@ -2382,7 +2382,7 @@ async function doAnalysis(fullBFDA) {
         }
  
     } else {
-        showMessage("The board is in an invalid state");
+        // showMessage("The board is in an invalid state");
         window.requestAnimationFrame(() => renderHints([], []));
     }
 
@@ -2428,7 +2428,7 @@ async function checkBoard() {
     const badTile = board.resetForAnalysis(true, true);
     if (badTile != null) {
         analysisButton.disabled = true;
-        showMessage("The board is in an invalid state. Tile " + badTile.asText() + " is invalid.");
+        // showMessage("The board is in an invalid state. Tile " + badTile.asText() + " is invalid.");
         canvasLocked = false;
         return;
     }
@@ -2438,7 +2438,7 @@ async function checkBoard() {
 
     if (solutionCounter.finalSolutionsCount != 0) {
         analysisButton.disabled = false;
-        //showMessage("The board has" + solutionCounter.finalSolutionsCount + " possible solutions");
+        //// showMessage("The board has" + solutionCounter.finalSolutionsCount + " possible solutions");
         let logicText;
         if (solutionCounter.clearCount != 0) {
             logicText = "There are safe tile(s). ";
@@ -2446,7 +2446,7 @@ async function checkBoard() {
             logicText = "There are no safe tiles. ";
         }
 
-        showMessage("The board is valid. " + board.getFlagsPlaced() + " Mines placed. " + logicText + formatSolutions(solutionCounter.finalSolutionsCount));
+        // showMessage("The board is valid. " + board.getFlagsPlaced() + " Mines placed. " + logicText + formatSolutions(solutionCounter.finalSolutionsCount));
         
     } else {
         let msg = "";
@@ -2454,8 +2454,8 @@ async function checkBoard() {
             msg = solutionCounter.invalidReasons[0];
         }
         analysisButton.disabled = true;
-        //showMessage("The board is in an invalid state. " + msg + " " + board.getFlagsPlaced() + " Mines placed. ");
-        showMessage("The board is in an invalid state. " + msg);
+        //// showMessage("The board is in an invalid state. " + msg + " " + board.getFlagsPlaced() + " Mines placed. ");
+        // showMessage("The board is in an invalid state. " + msg);
     }
 
     canvasLocked = false;
@@ -2725,7 +2725,7 @@ function on_click(event) {
 
                             renderTiles(uncertainChords);
 
-                            showMessage("Hard Core: Game is lost because you guessed (by chording) when there were safe tiles!");
+                            // showMessage("Hard Core: Game is lost because you guessed (by chording) when there were safe tiles!");
                             console.log("Chord is not hardcore valid");
 
                             return;
@@ -2752,7 +2752,7 @@ function on_click(event) {
                     renderTiles([tile]);
 
                     //draw(tile.x, tile.y, SKULL);
-                    showMessage("Hard Core: Game is lost because you guessed when there were safe tiles!");
+                    // showMessage("Hard Core: Game is lost because you guessed when there were safe tiles!");
                     console.log("Move is not hardcore valid");
 
                     return;
@@ -2824,7 +2824,7 @@ function analysis_toggle_flag(tile) {
     // if we have locked the mine count then adjust the bombs left 
     if (lockMineCount.checked) {
         if (delta == 1 && board.bombs_left == 0) {
-            showMessage("Can't reduce mines to find to below zero when the mine count is locked");
+            // showMessage("Can't reduce mines to find to below zero when the mine count is locked");
             return tiles;
         }
         board.bombs_left = board.bombs_left - delta;
@@ -3098,7 +3098,7 @@ async function sendActionsMessage(message) {
     } 
 
     if (reply.tiles.length == 0) {
-        showMessage("Unable to continue");
+        // showMessage("Unable to continue");
         document.getElementById("canvas").style.cursor = "default";
         canvasLocked = false;
         return;
@@ -3187,7 +3187,7 @@ async function sendActionsMessage(message) {
             document.getElementById("newGameSmiley").src = 'resources/images/face_lose.svg';
         }
 
-        showMessage("The game has been " + reply.header.status + ". 3BV: " + solved3BV + "/" + value3BV + ",  Actions: " + actionsMade + ",  Efficiency: " + efficiency);
+        // showMessage("The game has been " + reply.header.status + ". 3BV: " + solved3BV + "/" + value3BV + ",  Actions: " + actionsMade + ",  Efficiency: " + efficiency);
         return;
     }
 
@@ -3257,7 +3257,7 @@ async function handleSolver(solverStart, headerId) {
             window.requestAnimationFrame(() => renderHints(hints, other));
         } else {
             window.requestAnimationFrame(() => renderHints([], []));  // clear the hints overlay
-            showMessage("Press the 'Analyse' button to see the solver's suggested move.");
+            // showMessage("Press the 'Analyse' button to see the solver's suggested move.");
         }
 
         if (autoPlayCheckBox.checked || assistedPlay) {
@@ -3292,7 +3292,7 @@ async function handleSolver(solverStart, headerId) {
         canvasLocked = false;
         window.requestAnimationFrame(() => renderHints([], []));  // clear the hints overlay
         document.getElementById("canvas").style.cursor = "default";
-        showMessage("The solver is not running. Press the 'Analyse' button to see the solver's suggested move.");
+        // showMessage("The solver is not running. Press the 'Analyse' button to see the solver's suggested move.");
     }
 
 }
@@ -3453,9 +3453,9 @@ function showMessage(text) {
 
 function prefixMessage(text) {
     if (messageLine.innerHTML != "") {
-        showMessage(text + " - " + messageLine.innerHTML);
+        // showMessage(text + " - " + messageLine.innerHTML);
     } else {
-        showMessage(text);
+        // showMessage(text);
     }
     
 }

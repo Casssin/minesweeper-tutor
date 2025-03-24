@@ -77,7 +77,7 @@ class BruteForceAnalysis {
         for (let i = 0; i < top.getLivingLocations().length; i++) {
 
             if (this.verbose) {
-                showMessage("Analysing Brute Force Deep Analysis line " + i + " of " + top.getLivingLocations().length);
+                // showMessage("Analysing Brute Force Deep Analysis line " + i + " of " + top.getLivingLocations().length);
                 await sleep(1);
             }
  
