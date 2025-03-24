@@ -324,9 +324,8 @@ async function createNoGuessGame(header, index) {
 	//await sleep(500);
 
 	let won = false;
-	let loopCheck = 0;
 	let minTilesLeft = Number.MAX_SAFE_INTEGER;
-	let maxLoops = 100000;
+	let maxLoops = 1000;
 	ngCancel = false;
 
 	const options = {};
@@ -338,15 +337,10 @@ async function createNoGuessGame(header, index) {
 	const startTime = Date.now();
 
 	let revealedTiles;
-	let game
-	while (!won && loopCheck < maxLoops && !ngCancel) {
+	let game;
+	while (!won && !ngCancel) {
 
-		let seed;
-		if (header.seed != null && header.seed != 0) {
-			seed = header.seed;
-		} else {
-			seed = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER);
-		}
+		let seed = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER);
 
 		game = new ServerGame(header.id, header.width, header.height, header.mines, index, seed, "zero");
 
@@ -358,6 +352,7 @@ async function createNoGuessGame(header, index) {
 		applyResults(board, revealedTiles);
 
 		let guessed = false;
+		let loopCheck = 0;
 		while (revealedTiles.header.status == IN_PLAY && loopCheck < maxLoops && !guessed && !ngCancel) {
 
 			loopCheck++;
@@ -371,8 +366,11 @@ async function createNoGuessGame(header, index) {
                 }
             }
 
-			const reply = await solver(board, options);  // look for solutions
-
+			const reply = await noGuessSolver(board, options);  // look for solutions
+			if (reply == null) {
+				break;
+			}
+			
 			const fillers = reply.fillers;
 			for (let i = 0; i < fillers.length; i++) {
 

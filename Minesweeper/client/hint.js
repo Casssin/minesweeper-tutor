@@ -101,7 +101,13 @@ async function trivial_hints(board, options) {
         return result;
     }
 
-    return result.concat(one_trivial_hint(board, witnesses));
+    result = result.concat(one_trivial_hint(board, witnesses));
+
+    if (result.length == 0) {
+        return await solver(board, options);
+    }
+
+    return result;
 }
 
 function one_trivial_hint(board, witnesses) {
