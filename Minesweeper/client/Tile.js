@@ -149,7 +149,8 @@ class Tile {
     }
 
 	setValue(value) {
-		//console.log(this.asText() + " setting value " + value + " and not covered");
+		// console.log(this.asText() + " setting value " + value + " and not covered");
+		// console.trace();
 		this.value = value;
 		this.is_covered = false;
 	}

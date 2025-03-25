@@ -102,11 +102,6 @@ async function trivial_hints(board, options) {
     }
 
     result = result.concat(one_trivial_hint(board, witnesses));
-
-    if (result.length == 0) {
-        return await solver(board, options);
-    }
-
     return result;
 }
 
@@ -130,6 +125,7 @@ function one_trivial_hint(board, witnesses) {
             }
         }
 
+
         // if the tile has the correct number of flags then the other adjacent tiles are clear
         if (flags == tile.getValue() && covered > 0) {
             result.set(tile, new Action(tile.getX(), tile.getY(), 1, ACTION_HINT));
@@ -137,7 +133,8 @@ function one_trivial_hint(board, witnesses) {
                 const adjTile = adjTiles[j];
                 if (adjTile.isCovered() && !adjTile.isSolverFoundBomb() && !adjTile.isFlagged()) {
                     adjTile.setProbability(1);  // definite clear
-                    result.set(adjTile.index, new Action(adjTile.getX(), adjTile.getY(), 1, ACTION_CLEAR));
+                    if (skill == 0)
+                        result.set(adjTile.index, new Action(adjTile.getX(), adjTile.getY(), 1, ACTION_CLEAR));
                 }
             }
 
@@ -151,7 +148,8 @@ function one_trivial_hint(board, witnesses) {
                     adjTile.setProbability(0);  // definite mine
                     adjTile.setFoundBomb();
                     //if (!adjTile.isFlagged()) {  // if not already flagged then flag it
-                    result.set(adjTile.index, new Action(adjTile.getX(), adjTile.getY(), 0, ACTION_FLAG));
+                    if (skill == 0)
+                        result.set(adjTile.index, new Action(adjTile.getX(), adjTile.getY(), 0, ACTION_FLAG));
                     //}
 
                 }

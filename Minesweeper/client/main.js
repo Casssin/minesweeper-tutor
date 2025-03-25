@@ -53,6 +53,9 @@ let board;
 
 let oldrng = false;
 
+// 0 = beginner, 1 = intermediate, 2 = advanced
+let skill = 0;
+
 // define the whole board and set the event handlers for the file drag and drop
 const wholeBoard = document.getElementById('wholeboard');
 wholeBoard.ondrop = dropHandler;
@@ -197,6 +200,7 @@ async function startup() {
     }
 
     localStorageButton.style.display = "none";
+
 
     const rngParm = urlParams.get('rng');
     if (rngParm == "old") {
@@ -343,6 +347,7 @@ async function startup() {
         await sendActionsMessage(message);
         board.setStarted();
     }
+
 
     //bulkRun(21, 12500, false);  // seed '21' Played 12500 won 5192
     //bulkRun(321, 10000, false);  // seed 321 played 10000 won 4122   22/2/25
@@ -803,6 +808,7 @@ function renderHints(hints, otherActions, drawOverlay) {
     }
 
     let firstGuess = 0;  // used to identify the first (best) guess, subsequent guesses are just for info 
+    const tile = board.getTileXY(hints[0].x, hints[0].y);
     for (let i = 0; i < hints.length; i++) {
 
         const hint = hints[i];
@@ -810,10 +816,20 @@ function renderHints(hints, otherActions, drawOverlay) {
         if (hint.action == ACTION_CHORD) {
             ctxHints.fillStyle = "#00FF00";
         } else if (hint.action == ACTION_FLAG) {   // mine
+            showMessage("Take a look at the blue-highlighted tile "
+                + tile.getValue()
+                + ". Notice how there is only " 
+                + tile.getValue() 
+                + " covered tile that are touching the blue. When this happens in Minesweeper, you can safely flag all covered neighbours, which is highlighted in red.");
             ctxHints.fillStyle = "#FF0000";
         } else if (hint.action == ACTION_HINT) {
             ctxHints.fillStyle = "#0085FF";
         } else if (hint.action == ACTION_CLEAR) {  // safe
+            showMessage("Take a look at the blue-highlighted tile "
+                + tile.getValue()
+                + ". Notice how there is already " 
+                + tile.getValue() 
+                + " flagged mine that are touching the blue. When this happens in Minesweeper, you can safely reveal all covered neighbours, which is highlighted in green.");
             ctxHints.fillStyle = "#00FF00";
         } else if (hint.dead) {  // uncertain but dead
             ctxHints.fillStyle = "black";
@@ -1478,6 +1494,7 @@ function loadReplayData(file) {
 async function newGame(width, height, mines, seed, analyse) {
 
     console.log("New game requested: Width=" + width + " Height=" + height + " Mines=" + mines + " Seed=" + seed);
+    showMessage("Welcome to Minesweeper tutor! Text hints will appear here and help guide you through the game. Click anywhere to start!");
 
     // let the server know the game is over
     if (board != null) {
