@@ -422,7 +422,7 @@ async function createNoGuessGame(header, index) {
 
 		}
 
-		console.log("Seed " + seed + " tiles left " + game.tilesLeft);
+		// console.log("Seed " + seed + " tiles left " + game.tilesLeft);
 		if (game.tilesLeft < minTilesLeft) {
 			minTilesLeft = game.tilesLeft;
         }

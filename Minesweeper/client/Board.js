@@ -52,6 +52,10 @@ class Board {
 	isGameover() {
 		return this.gameover;
 	}
+
+	isGameWon() {
+		return this.won;
+	}
 	
 	
 	getID() {

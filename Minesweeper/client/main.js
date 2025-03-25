@@ -151,6 +151,10 @@ const urlParams = new URLSearchParams(window.location.search);
 
 const filePickerAvailable = ('showSaveFilePicker' in window);
 
+let gameTimeStart;
+let hintCount;
+let skillArchive = []; // at most will have 3 items
+
 // things to do when the page visibility changes
 function visibilityChange() {
 
@@ -164,8 +168,6 @@ function startGame(difficulty) {
     // Hide the modal after selection
     document.getElementById("difficultyModal").style.display = "none";
     
-    // Optionally, you may need to update the GUI (e.g. mark the radio buttons accordingly)
-    // Now start a new game with the chosen difficulty
     startup();
 }
 
@@ -321,6 +323,8 @@ async function startup() {
     // create the playable game;
     await newGame(width, height, mines, seed, analysis == null && start == null);
     gameBoard = board;
+    gameTimeStart = Date.now();
+    hintCount = 0;
 
     if (analysis != null) {
         const compressor = new Compressor();
@@ -384,6 +388,72 @@ async function startup() {
     //bulkRun(0, 1000, true);  // modern: seed '0' Won 546/1000 (54.60%)
 
     // showMessage("Welcome to minesweeper solver dedicated to Annie");
+}
+
+function setSkillLevel(failed, time, hintUsed) {
+    skillArchive.push(calculateSkillLevel(failed, time, hintUsed, skill));
+    if (skillArchive.length == 4) {
+        skillArchive.shift();
+    }
+    if (skillArchive.length == 1 && skillArchive[0] >= 1) {
+        skill = Math.min(3, skill + 1);
+    }
+    else if (skillArchive.length == 2 && (skillArchive[0] + skillArchive[1]) / 2 >= 1) {
+        skill = Math.min(3, skill + 1);
+    }
+    else {
+        const avg = (skillArchive[0] + skillArchive[1] + skillArchive[2]) / 3;
+        console.log(avg);
+        if (avg >= 1) {
+            skill = Math.min(3, skill + 1);
+        }
+        else if (avg <= -1) {
+            skill = Math.max(0, skill - 1);
+        }
+    }
+    console.log("Score level: " + skillArchive + " Time: " + time + " Failed: " + failed + " hintUsed: " + hintUsed);
+}
+
+// will return a float around -2 and 2, calculates the skill level of one try
+function calculateSkillLevel(failed, time, hintsUsed, skillLevel) {
+    // each hint will reduce "skill level" score to -1
+    const hintPenalty = -0.1;
+
+    // below 3 hints is too much
+    const totalHintPenalty = (-3 * hintPenalty) + Math.max(-1, hintsUsed * hintPenalty);
+
+    // every second over the idealTime will occur 
+    const timePenalty = -0.01;
+
+    if (failed) {
+        return -1.2 + Math.min(0, totalHintPenalty);
+    }
+
+    if (skillLevel == 0) {
+        // ideal time for a beginner clear is 3.5 minutes
+        const idealTime = 210;
+
+        // time penalty at most is -1
+        const totalTimePenalty = Math.max(-1, (time - idealTime) * timePenalty);
+
+        return totalTimePenalty + totalHintPenalty;
+    }
+    else if (skillLevel == 1) {
+        // ideal time for a intermediate clear is 5.5 minutes
+        const idealTime = 330;
+        // time penalty at most is -1
+        const totalTimePenalty = Math.max(-1, (time - idealTime) * timePenalty);
+
+        return totalTimePenalty + totalHintPenalty;
+    }
+    else {
+        // ideal time for a intermediate clear is 7.5 minutes
+        const idealTime = 450;
+        // time penalty at most is -1
+        const totalTimePenalty = Math.max(-1, (time - idealTime) * timePenalty);
+
+        return totalTimePenalty + totalHintPenalty;
+    }
 }
 
 function setBoardSizeOnGUI(width, height, mines) {
@@ -1597,7 +1667,8 @@ async function newGame(width, height, mines, seed, analyse) {
     if (!analysisMode && analyse && autoPlayCheckBox.checked && acceptGuessesCheckBox.checked) {
         await startSolver();
     }
-
+    gameTimeStart = Date.now();
+    hintCount = 0;
 }
 
 function doToggleFlag() {
@@ -2356,6 +2427,8 @@ async function hint() {
     // by delaying re-enabling we absorb any secondary clicking of the button / hot key
     setTimeout(function () { analysisButton.disabled = false; }, 200);
     canvasLocked = false;
+
+    hintCount++;
 
 }
 async function doAnalysis(fullBFDA) {

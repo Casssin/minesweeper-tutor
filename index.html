@@ -168,7 +168,7 @@
                     <input type="image" src='resources/images/face.svg' id="newGameSmiley" onclick="apply()" style="position: relative; left: 5px; top: 2px; width: 40px; height: 40px;" />
                 </div>
                 <div style="flex-grow: 1;">
-                    <button class="small" type="button" style="position: relative; font-size: 22px; float: right; top: 6px; right: 6px; " id="toggleScreen" onclick="doToggleScreen()">+</button>
+                    <button class="small" type="button" style="position: relative; font-size: 22px; float: right; top: 6px; right: 6px; " id="toggleScreen" onclick="doToggleScreen()">-</button>
                 </div>
             </div>
 
@@ -311,7 +311,7 @@
 
     <script type="text/javascript">
         function apply() {
-
+            setSkillLevel(!board.isGameWon(), (Date.now() - gameTimeStart) / 1000, hintCount);
             if (skill == 0) {
                 doNewGame(9, 9, 10);
                 return;
@@ -384,7 +384,6 @@
         }
 
         function doNewGame(width, height, mines) {
-
             if (document.getElementById("useSeed").checked) {
                 newGame(width, height, mines, document.getElementById("seed").value, true);
             } else {

@@ -1886,7 +1886,7 @@ async function noGuessSolver(board, options) {
     while (noMoves < 5 && cleanActions.length == 0) {
         noMoves++;
         const actions = await doSolve(board, options);  // look for solutions
-        console.log(actions);
+        // console.log(actions);
 
         if (options.playStyle == PLAY_STYLE_EFFICIENCY || options.playStyle == PLAY_STYLE_NOFLAGS_EFFICIENCY) {
             cleanActions = actions;
