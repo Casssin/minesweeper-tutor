@@ -163,6 +163,7 @@ function visibilityChange() {
 async function startup() {
 
     console.log("At start up...");
+    console.trace();
 
     if (filePickerAvailable) {
         console.log("Browser supports Save File Picker dialogue");
@@ -808,7 +809,9 @@ function renderHints(hints, otherActions, drawOverlay) {
     }
 
     let firstGuess = 0;  // used to identify the first (best) guess, subsequent guesses are just for info 
-    const tile = board.getTileXY(hints[0].x, hints[0].y);
+    let tile;
+    if (hints.length >= 1)
+        tile = board.getTileXY(hints[0].x, hints[0].y);
     for (let i = 0; i < hints.length; i++) {
 
         const hint = hints[i];

@@ -171,16 +171,17 @@
 
             <!-- message line at the bottom -->
             <div id="messageBar" class="">
-                <div style="display:flex; flex-direction: column; justify-content: flex-end; position: relative; bottom: 0px; left: 0px; right: 0px; height: 100px;">
+                <div style="display:flex; flex-direction: column; justify-content: flex-end; position: relative; bottom: 0px; left: 0px; right: 0px; height: 50px;">
                     <label id="messageLine" style="font-size: 18px; overflow-y: auto; padding-left: 0px"></label>
                 </div>
             </div>
 
             <!-- A hyperlink to download the board -->
             <div id="downloadBar" style="position: relative; left: 0px; top: 0px; right: 0px; height: 20px;">
-                <a id="saveposition" style="float: left; width: 140px; margin-right: 30px;" download="" href="">Save position</a>
+                <button type="button" style="margin-top: 1em;" id="AnalysisButton" onclick="hint()"><u>H</u>int</button>
+                <a id="saveposition" class="hidden" style="float: left; width: 140px; margin-right: 30px;" download="" href=""></a>
                 <!-- <a id="downloadmbf" style="float: left; width: 130px" onclick="downloadAsMBF(event)" download="" href="">Download as MBF</a>  -->
-                <a id="savembf" style="float: left; width: 120px; margin-right: 30px;" download="" href="">Save as MBF</a>
+                <a id="savembf" class="hidden" style="float: left; width: 120px; margin-right: 30px;" download="" href=""></a>
             </div>
             <!--
             <div style="position: absolute; left: 10px; top: 30px; right: 0px;">
