@@ -167,6 +167,7 @@ function startGame(difficulty) {
     skill = difficulty;
     // Hide the modal after selection
     document.getElementById("difficultyModal").style.display = "none";
+    showMessage("Welcome to Minesweeper tutor! When you press the hint button, text hints will appear here and help guide you through the game. Click anywhere to start!");
     
     startup();
 }
@@ -396,18 +397,22 @@ function setSkillLevel(failed, time, hintUsed) {
         skillArchive.shift();
     }
     if (skillArchive.length == 1 && skillArchive[0] >= 1) {
+        showMessage("Wow! You're really good! We've made the game a little harder and adjusted the hints.");
         skill = Math.min(3, skill + 1);
     }
     else if (skillArchive.length == 2 && (skillArchive[0] + skillArchive[1]) / 2 >= 1) {
+        showMessage("Wow! You're really good! We've made the game a little harder and adjusted the hints.");
         skill = Math.min(3, skill + 1);
     }
     else {
         const avg = (skillArchive[0] + skillArchive[1] + skillArchive[2]) / 3;
         console.log(avg);
         if (avg >= 1) {
+            showMessage("Wow! You're really good! We've made the game a little harder and adjusted the hints.");
             skill = Math.min(3, skill + 1);
         }
         else if (avg <= -1) {
+            showMessage("It seems like you've had a couple of rough games. It happens! We've made the game a little easier and made the hints easier to understand. Hope this helps :)");
             skill = Math.max(0, skill - 1);
         }
     }
@@ -924,6 +929,11 @@ function renderHints(hints, otherActions, drawOverlay) {
                 + " covered tile that are touching the blue. When this happens in Minesweeper, you can safely flag all covered neighbours, which is highlighted in red.");
             ctxHints.fillStyle = "#FF0000";
         } else if (hint.action == ACTION_HINT) {
+            if (skill == 1) {
+                showMessage("Take a look at the blue-highlighted " 
+                    + tile.getValue() 
+                    + ", what can we deduce from it based on the mines and the clear spaces around it?")
+            }
             ctxHints.fillStyle = "#0085FF";
         } else if (hint.action == ACTION_CLEAR) {  // safe
             showMessage("Take a look at the blue-highlighted tile "
@@ -1596,7 +1606,6 @@ async function newGame(width, height, mines, seed, analyse) {
 
     console.log("New game requested: Width=" + width + " Height=" + height + " Mines=" + mines + " Seed=" + seed);
     console.trace();
-    showMessage("Welcome to Minesweeper tutor! Text hints will appear here and help guide you through the game. Click anywhere to start!");
 
     // let the server know the game is over
     if (board != null) {
@@ -2369,7 +2378,7 @@ async function sleep(msec) {
 
 async function hint() {
 
-    if (canvasLocked) {
+    if (canvasLocked || board.isGameover()) {
         console.log("Already analysing... request rejected");
         return;
     } else {
@@ -2426,7 +2435,6 @@ async function hint() {
 
     // by delaying re-enabling we absorb any secondary clicking of the button / hot key
     setTimeout(function () { analysisButton.disabled = false; }, 200);
-    canvasLocked = false;
 
     hintCount++;
 
@@ -2718,6 +2726,7 @@ function on_click(event) {
 
     //console.log("Click event at X=" + event.offsetX + ", Y=" + event.offsetY);
 
+    canvasLocked = false;
     if (board.isGameover()) {
         console.log("The game is over - no action to take");
         return;

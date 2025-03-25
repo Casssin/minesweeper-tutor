@@ -41,10 +41,12 @@ class Board {
 	}
 	
 	setGameLost() {
+		showMessage("You lost :(. Nice try! Take a look at the board and try to figure out why you lost. When you're ready, click on the frowny face beside the mine counter to try again!");
 		this.gameover = true;
 	}
 
     setGameWon() {
+		showMessage("You won! Nice job! When you're ready, press the smiley face to play another game!");
         this.gameover = true;
         this.won = true;
     }
