@@ -12,7 +12,7 @@
 <body style="position: absolute; left:0px; right:0px; top:0px; bottom:0px; zoom: 1.0;" onresize="browserResized()" onload="load_images()">
 
     <!-- Title at the top -->
-    <h1 id="headerPanel" style="position: absolute; left: 0px; top: 0px; height: 50px; right: 0px; overflow-y: auto;">
+    <h1 id="headerPanel" style="position: absolute; left: 0px; top: 0px; height: 50px; right: 0px; overflow-y: auto; display: block;">
         <img src="resources/images/bomb.png" style="width: 48px; vertical-align: middle;" onclick="propertiesOpen()"/>
         <!-- button type="button" style="zoom: 0.9; vertical-align: middle;" id="settingsButton" onclick="propertiesOpen()"><img src="resources/images/bomb.png" style="width: 30px;" /></button -->
         <label id="title" style="font-size: 36px; vertical-align: middle;">Minesweeper Tutor</label>
@@ -22,7 +22,7 @@
     </h1>
 
     <!-- control panel on the left -->
-    <nav id="controls" style="zoom: 0.9; position: absolute; left: 0px; top: 65px; bottom: 0px; width: 175px; overflow-y: auto">
+    <nav id="controls" style="zoom: 0.9; position: absolute; left: 0px; top: 65px; bottom: 0px; width: 175px; overflow-y: auto; display: none;">
 
         <div id="play0" style="margin-top: 0px;">
             <div class="checkboxes">
@@ -146,7 +146,7 @@
     <!--
     style="display: block; position: absolute; left: 170px; right: 0px; top: 60px; bottom: 60px;"
     -->
-    <div id="wholeboard" style="display: flex; flex-direction: column; position: absolute; left: 170px; right: 200px; top: 60px; bottom: 60px;">
+    <div id="wholeboard" style="display: flex; flex-direction: column; position: absolute; left: 0px; right: 200px; top: 60px; bottom: 60px;">
         <div class="tooltip" id="canvas" style="position: absolute; left: 0px; top: 0px; bottom: 0px; right: 0px;">
 
             <!-- the board header with mine count and some buttons -->
@@ -170,7 +170,7 @@
             <span id="tooltip" class="tooltiptext" style="pointer-events: none;"></span>
 
             <!-- message line at the bottom -->
-            <div id="messageBar" class="hidden">
+            <div id="messageBar" class="">
                 <div style="display:flex; flex-direction: column; justify-content: flex-end; position: relative; bottom: 0px; left: 0px; right: 0px; height: 100px;">
                     <label id="messageLine" style="font-size: 18px; overflow-y: auto; padding-left: 0px"></label>
                 </div>
@@ -190,7 +190,7 @@
 
         </div>
     </div>
-    <div id="messageBarBottom" style="position: absolute; top: 30%; right: 10px; bottom: 60px; width: 400px; height: 300px">
+    <div id="messageBarBottom" class="hidden" style="position: absolute; top: 30%; right: 10px; bottom: 60px; width: 400px; height: 300px">
         <div class="raised" style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%;">
             <label id="messageLineBottom" style="font-size: 18px; overflow-y: auto; padding-left: 2px; text-align: center;"></label>
         </div>

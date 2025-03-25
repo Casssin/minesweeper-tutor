@@ -453,6 +453,7 @@ async function createNoGuessGame(header, index) {
 	serverGames.set(header.id, game);
 
 	ngModal.style.display = "none";
+	updateMineCount(board.bombs_left);
 
 	return game;
 

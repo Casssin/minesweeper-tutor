@@ -105,7 +105,7 @@ downloadMBF.onclick = saveMBF;
 downloadPosition.onclick = savePosition;
 
 // variables for display expand or shrink
-let isExpanded = false;
+let isExpanded = true;
 let originalLeftBoard = 185;
 let originalTopHeight = 60
 let originalLeftMessage = 185;
@@ -1617,8 +1617,8 @@ function doToggleScreen() {
     if (isExpanded) {
         document.getElementById("controls").style.display = "block";
         document.getElementById("headerPanel").style.display = "block";
-        document.getElementById("wholeboard").style.left = originalLeftBoard;
-        document.getElementById("wholeboard").style.top = originalTopHeight;
+        document.getElementById("wholeboard").style.left = "185px";
+        document.getElementById("wholeboard").style.top = "60px";
 
         document.getElementById("messageBar").style.left = originalLeftMessage;
         isExpanded = false;
@@ -1630,20 +1630,17 @@ function doToggleScreen() {
 
         isExpanded = false;
     } else {
-        originalLeftBoard = document.getElementById("wholeboard").style.left;
-        originalLeftMessage = document.getElementById("messageBar").style.left;
-        originalTopHeight = document.getElementById("wholeboard").style.top;
         document.getElementById("wholeboard").style.left = "0px";
-        document.getElementById("wholeboard").style.top = "0px";
+        document.getElementById("wholeboard").style.top = originalTopHeight;
         document.getElementById("messageBar").style.left = "0px";
 
         document.getElementById("controls").style.display = "none";
-        document.getElementById("headerPanel").style.display = "none";
+        document.getElementById("headerPanel").style.display = "block";
 
         document.getElementById("toggleScreen").innerHTML = "-";
 
         messageBarBottom.className = "hidden";
-        downloadBar.className = "hidden";
+        downloadBar.className = "";
         messageBar.className = "";
         isExpanded = true;
     }
