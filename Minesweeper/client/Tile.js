@@ -94,15 +94,17 @@ class Tile {
         this.probability = prob;
         this.hasHint = true;
 
-		if (prob == 1) {
-			this.hintText = "Safe";
-		} else if (prob == 0) {
-			this.hintText = "Mine";
-		} else if (progress == null) {
-			this.hintText = "\n" + (prob * 100).toFixed(2) + "% safe";
-		} else {
-			this.hintText = "\n" + (prob * 100).toFixed(2) + "% safe" + "\n" + (safety2 * 100).toFixed(2) + "% 2nd safety" + "\n" + (progress * 100).toFixed(2) + "% progress"
-        }
+		if (skill == 0) {
+			if (prob == 1) {
+				this.hintText = "Safe";
+			} else if (prob == 0) {
+				this.hintText = "Mine";
+			} else if (progress == null) {
+				this.hintText = "\n" + (prob * 100).toFixed(2) + "% safe";
+			} else {
+				this.hintText = "\n" + (prob * 100).toFixed(2) + "% safe" + "\n" + (safety2 * 100).toFixed(2) + "% 2nd safety" + "\n" + (progress * 100).toFixed(2) + "% progress"
+			}
+		}
 
 	}
 

@@ -158,6 +158,18 @@ function visibilityChange() {
      
 }
 
+function startGame(difficulty) {
+    // Set parameters based on difficulty
+    skill = difficulty;
+    // Hide the modal after selection
+    document.getElementById("difficultyModal").style.display = "none";
+    
+    // Optionally, you may need to update the GUI (e.g. mark the radio buttons accordingly)
+    // Now start a new game with the chosen difficulty
+    startup();
+}
+
+
 
 // things to do to get the game up and running
 async function startup() {
@@ -225,9 +237,9 @@ async function startup() {
 
     const boardSize = urlParams.get('board');
 
-    let width = 9;
-    let height = 9;
-    let mines = 10;
+    let width;
+    let height;
+    let mines;
     if (boardSize != null) {
         const size = boardSize.split("x");
 
@@ -280,6 +292,22 @@ async function startup() {
     // make the properties div draggable
     dragElement(propertiesPanel);
     //propertiesClose();
+
+    if (skill == 0) {
+        width = 9;
+        height = 9;
+        mines = 10;
+    }
+    else if (skill == 1) {
+        width = 16;
+        height = 16;
+        mines = 40;
+    }
+    else {
+        width = 30;
+        height = 16;
+        mines = 99;
+    }
 
     // set the board details
     setBoardSizeOnGUI(width, height, mines);
@@ -1497,6 +1525,7 @@ function loadReplayData(file) {
 async function newGame(width, height, mines, seed, analyse) {
 
     console.log("New game requested: Width=" + width + " Height=" + height + " Mines=" + mines + " Seed=" + seed);
+    console.trace();
     showMessage("Welcome to Minesweeper tutor! Text hints will appear here and help guide you through the game. Click anywhere to start!");
 
     // let the server know the game is over
@@ -3412,9 +3441,9 @@ function load_image(image_path) {
 
         console.log("An image has loaded: " + image_path);
         imagesLoaded++;
-        if (imagesLoaded == images.length + led_images.length) {
-            startup();
-        }
+        // if (imagesLoaded == images.length + led_images.length) {
+        //     startup();
+        // }
 
     }, false);
     image.src = image_path;

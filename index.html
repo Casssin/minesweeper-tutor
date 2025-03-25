@@ -142,6 +142,17 @@
 
     </nav>
 
+    <!-- Difficulty selection modal -->
+    <div id="difficultyModal" class="modal" style="display: block;">
+        <div class="modal-content" style="padding: 20px; text-align: center;">
+        <h2>Select Difficulty</h2>
+        <button onclick="startGame(0)">Beginner</button>
+        <button onclick="startGame(1)">Intermediate</button>
+        <button onclick="startGame(2)">Expert</button>
+        </div>
+    </div>
+  
+
     <!-- where the board goes -->
     <!--
     style="display: block; position: absolute; left: 170px; right: 0px; top: 60px; bottom: 60px;"
@@ -301,17 +312,15 @@
     <script type="text/javascript">
         function apply() {
 
-            if (document.getElementById("beginner").checked) {
+            if (skill == 0) {
                 doNewGame(9, 9, 10);
                 return;
             }
-
-            if (document.getElementById("intermediate").checked) {
+            else if (skill == 1) {
                 doNewGame(16, 16, 40);
                 return;
             }
-
-            if (document.getElementById("expert").checked) {
+            else {
                 doNewGame(30, 16, 99);
                 return;
             }
