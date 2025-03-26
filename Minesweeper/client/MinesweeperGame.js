@@ -456,7 +456,7 @@ async function createNoGuessGame(header, index) {
 	updateMineCount(board.bombs_left);
 	
 	if (skill == 0) {
-		showMessage("You just cleared your first squares! Minesweeper is a game where mines are hidden in a grid of squares. Safe squares have numbers telling you how many mines touch the square. You can use the number clues to solve the game by opening all of the safe squares. If you click on a mine you lose the game! You open squares with the left mouse button and put flags on mines with the right mouse button. Pressing the right mouse button again changes your flag into a question mark. When you open a square that does not touch any mines, it will be empty and the adjacent squares will automatically open in all directions until reaching squares that contain numbers. The number on the top right is how many mines are left on the board. Try deducing some mines! If you ever get stuck press the hint button.")
+		showMessage("You just cleared your first squares! Minesweeper is a game where mines are hidden in a grid of squares. Safe squares have numbers telling you how many mines touch the square. You can use the number clues to solve the game by opening all of the safe squares. If you click on a mine you lose the game! You open squares with the left mouse button and put flags on mines with the right mouse button. Pressing the right mouse button again changes your flag into a question mark. When you open a square that does not touch any mines, it will be empty and the adjacent squares will automatically open in all directions until reaching squares that contain numbers. The number on the top left is how many mines are left on the board. Try deducing some mines! If you ever get stuck press the hint button.")
 	}
 
 	return game;
